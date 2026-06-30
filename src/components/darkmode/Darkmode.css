@@ -1,0 +1,19 @@
+.modebtn{
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+    cursor:  pointer;
+    border-radius: 50px;
+    border: none;
+    background-color: var(--btn-background-color);
+}
+
+.modebtn svg{
+    width: 30px;
+    height: 30px;
+    color: var(--color);
+}
+
+.modebtn:hover{
+    background-color: var(--hover-btn-background-color);
+}

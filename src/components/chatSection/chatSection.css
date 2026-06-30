@@ -1,0 +1,5 @@
+.chatsection{
+    background-color:var(--background-color);
+    color: var(--color);
+    flex: 1;
+}
