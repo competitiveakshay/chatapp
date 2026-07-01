@@ -63,7 +63,7 @@ A ChatGPT-style conversational AI web app built with React 19 and Google's Gemin
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/competitiveakshay/chatapp.git
 cd chatapp
 
 # Install dependencies
