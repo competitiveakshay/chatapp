@@ -1,34 +1,31 @@
 import { GoogleGenAI } from '@google/genai';
-import { Interactions } from '@google/genai';
 
+// Initialize the Google Gen AI client using Vite environment variables
 const ai = new GoogleGenAI({
-    apiKey: process.env['GEMINI_API_KEY'],
+    apiKey: import.meta.env.VITE_GEMINI_API_KEY,
 });
 
-const tools = [
-    {
-        type: 'google_search',
-    },
-];
-
-const generationConfig = {
-    temperature: 1,
-    max_output_tokens: 65536,
-    topP: 0.95,
-    thinkingLevel: 'high',
-};
-
 async function main(prompt) {
-    const interaction = await ai.interactions.create({
-        model: 'models/gemini-3-flash-preview',
-        input: prompt,
-        tools: tools,
-        generation_config: generationConfig,
-    });
+    try {
+        // Correct SDK syntax for generating content
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash', // Use the standard, reliable flash model
+            contents: prompt,
+            config: {
+                // To activate Google Search grounding, use the correct object key
+                tools: [{ googleSearch: {} }], 
+                temperature: 1,
+            }
+        });
 
-    console.log(interaction.steps?.at(-1));
+        // The text answer is stored inside response.text
+        console.log("Gemini Response:", response.text);
+        return response.text; 
+        
+    } catch (error) {
+        console.error("Gemini API Error details:", error);
+        throw error;
+    }
 }
 
-export default main ;
-
-
+export default main;

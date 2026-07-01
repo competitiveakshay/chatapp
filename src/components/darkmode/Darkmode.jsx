@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IoIosSunny } from "react-icons/io";
+import { FaMoon } from "react-icons/fa";
 import "./Darkmode.css"
 
 const Darkmode = () => {
@@ -24,7 +25,7 @@ const Darkmode = () => {
         console.log(mode);
         
     }}>
-      <IoIosSunny />
+      {mode==="darkmode"?<IoIosSunny />:<FaMoon/>}
     </button>
   )
 }
