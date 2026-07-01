@@ -1,16 +1,111 @@
-# React + Vite
+# AI Chat Assistant
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A ChatGPT-style conversational AI web app built with React 19 and Google's Gemini API. Features a clean chat interface, persistent conversation history in the sidebar, and a dark/light theme toggle.
 
-Currently, two official plugins are available:
+![AI Chat Assistant Screenshot](./screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- 💬 **Conversational AI Chat** — Real-time responses powered by Google's Gemini 2.5 Flash model
+- 🔍 **Search-Grounded Answers** — Gemini's Google Search grounding tool integrated for up-to-date responses
+- 🕑 **Chat History Sidebar** — Collapsible sidebar showing previous prompts, click to revisit
+- 🌗 **Dark / Light Mode** — Theme toggle using CSS custom properties, applied globally via `document.body`
+- ⚡ **Loading State UX** — Animated shimmer loader while waiting on AI responses
+- 🧠 **Centralized State** — Global state management via React Context API (no prop drilling)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Category | Technology |
+|---|---|
+| Frontend | React 19, Vite |
+| State Management | React Context API |
+| AI / LLM | Google Gemini API (`@google/genai`) |
+| Icons | react-icons |
+| Styling | Plain CSS with CSS custom properties (theming) |
+| Linting | ESLint |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```
+📦src
+ ┣ 📂assets
+ ┃ ┣ 📜ai.png
+ ┃ ┣ 📜hero.png
+ ┃ ┗ 📜user.png
+ ┣ 📂components
+ ┃ ┣ 📂SIdebar          # Chat history + navigation
+ ┃ ┣ 📂chatSection      # Main chat window + input
+ ┃ ┣ 📂darkmode         # Theme toggle button
+ ┃ ┗ 📂separation       # Visual divider between sidebar and chat
+ ┣ 📂context
+ ┃ ┗ 📜UserContext.jsx  # Global state: input, chat history, loading, results
+ ┣ 📜App.jsx
+ ┣ 📜gemini.js          # Gemini API integration
+ ┣ 📜index.css          # Global styles + theme variables
+ ┗ 📜main.jsx
+```
+
+## Architecture Overview
+
+- **`UserContext.jsx`** wraps the whole app and exposes shared state (`input`, `resultData`, `previousPrompt`, `loading`, etc.) along with the `sent()` function that triggers a Gemini API call and updates state as the response streams in.
+- **`gemini.js`** initializes the `GoogleGenAI` client using an API key from environment variables and calls `ai.models.generateContent()` with Google Search grounding enabled and `temperature: 1`.
+- **`ChatSection`** renders either the welcome screen or the active conversation (user prompt + AI response), and shows a shimmer loader while `loading` is `true`.
+- **`Sidebar`** lists past prompts from `previousPrompt` and lets the user re-trigger any of them.
+- **`Darkmode`** toggles a CSS class (`darkmode` / `lightmode`) on `document.body`, which switches CSS custom property values (`--color`, `--btn-background-color`, etc.) consumed across all components.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- A [Google Gemini API key](https://aistudio.google.com/app/apikey)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone <your-repo-url>
+cd chatapp
+
+# Install dependencies
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### Run Locally
+
+```bash
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+### Build for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Roadmap / Known Limitations
+
+- [ ] Chat history currently lives only in React state and is lost on page refresh — persist to `localStorage` or a backend
+- [ ] AI responses are not rendered as formatted Markdown yet (bold, lists, code blocks)
+- [ ] No unique `key` prop on sidebar's mapped chat list items
+- [ ] No authentication / multi-user support
+
+## License
+
+This project is for personal/portfolio use.
+
+## Author
+
+**Akshay Gaur**
+[GitHub](https://github.com/competitiveakshay) · [LinkedIn](#)
