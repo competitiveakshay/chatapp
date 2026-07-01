@@ -2,7 +2,6 @@
 
 A ChatGPT-style conversational AI web app built with React 19 and Google's Gemini API. Features a clean chat interface, persistent conversation history in the sidebar, and a dark/light theme toggle.
 
-![AI Chat Assistant Screenshot](./screenshot.png)
 
 ## Features
 
